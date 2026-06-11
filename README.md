@@ -1,4 +1,4 @@
-# @open-comp/widgets
+# @open-comp/*
 
 Monorepo of microfrontend widgets published under `@open-comp/*`.  
 Each widget compiles to ESM + UMD + `remoteEntry.js` and is consumable via the `open-comp` orchestrator or as a classic npm install.
