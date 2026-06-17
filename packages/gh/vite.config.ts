@@ -1,7 +1,9 @@
-import federation from '@originjs/vite-plugin-federation';
+import federation, { type SharedConfig } from '@originjs/vite-plugin-federation';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import pkg from './package.json';
+
+type Shared = Record<string, SharedConfig & { singleton?: boolean }>;
 
 const isFederation = process.env.BUILD_MODE === 'federation';
 
@@ -24,7 +26,11 @@ export default defineConfig({
             singleton: true,
             requiredVersion: pkg.peerDependencies['react-dom'],
           },
-        },
+          '@gnome-ui/react': { singleton: true },
+          '@gnome-ui/icons': { singleton: true },
+          '@api-hooks/gh': { singleton: true },
+          '@tanstack/react-query': { singleton: true },
+        } satisfies Shared,
       }),
   ].filter(Boolean),
 

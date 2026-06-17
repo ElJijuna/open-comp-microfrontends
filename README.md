@@ -10,6 +10,7 @@ Each widget compiles to ESM + UMD + `remoteEntry.js` and is consumable via the `
 | Package | Version | Description |
 |---------|---------|-------------|
 | [`@open-comp/hello-world`](./packages/hello-world) | `0.1.0` | Dummy widget — validates the full build/publish/load pipeline |
+| [`@open-comp/gh`](./packages/gh) | `0.1.0` | GitHub-scoped components (profile card, etc.) |
 
 ---
 

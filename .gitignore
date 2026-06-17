@@ -23,6 +23,9 @@ Thumbs.db
 .env.*
 !.env.example
 
+# storybook
+storybook-static/
+
 # logs
 *.log
 npm-debug.log*
