@@ -102,6 +102,8 @@ module.exports = {
             label: `${packageJson.name} npm package`,
           },
         ],
+        failComment: false,
+        failTitle: false,
       },
     ],
     [
