@@ -5,6 +5,12 @@
       "scope": "hello-world",
       "path": "packages/hello-world",
       "tagFormat": "hello-world-v${version}"
+    },
+    {
+      "name": "@open-comp/gh",
+      "scope": "gh",
+      "path": "packages/gh",
+      "tagFormat": "gh-v${version}"
     }
   ],
   "repoScope": {

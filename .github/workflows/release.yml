@@ -22,6 +22,9 @@ jobs:
           - name: '@open-comp/hello-world'
             scope: hello-world
             path: packages/hello-world
+          - name: '@open-comp/gh'
+            scope: gh
+            path: packages/gh
 
     steps:
       - name: Checkout
