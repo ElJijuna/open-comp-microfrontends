@@ -1,0 +1,26 @@
+{
+  "packages": [
+    {
+      "name": "@open-comp/hello-world",
+      "scope": "hello-world",
+      "path": "packages/hello-world",
+      "tagFormat": "hello-world-v${version}"
+    }
+  ],
+  "repoScope": {
+    "scope": "repo",
+    "allowedPaths": [
+      ".github/",
+      "scripts/",
+      "release-packages.json",
+      "release.config.cjs",
+      "package.json",
+      "package-lock.json",
+      "README.md",
+      "turbo.json",
+      "tsconfig.base.json",
+      "eslint.config.js",
+      "biome.json"
+    ]
+  }
+}

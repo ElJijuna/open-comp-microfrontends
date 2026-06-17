@@ -12,7 +12,12 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npm run build:lib && npm run build:types && npm run build:federation",
     "build:types": "tsc",

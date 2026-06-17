@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import federation from '@originjs/vite-plugin-federation'
-import pkg from './package.json'
+import federation from '@originjs/vite-plugin-federation';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import pkg from './package.json';
 
-const isFederation = process.env.BUILD_MODE === 'federation'
+const isFederation = process.env.BUILD_MODE === 'federation';
 
 export default defineConfig({
   plugins: [
@@ -59,4 +59,4 @@ export default defineConfig({
         outDir: 'dist',
         emptyOutDir: true,
       },
-})
+});

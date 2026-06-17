@@ -1,1 +1,1 @@
-export { HelloWorld, HelloWorld as default, type HelloWorldProps } from './HelloWorld';
+export { HelloWorld, type HelloWorldProps } from './HelloWorld';
