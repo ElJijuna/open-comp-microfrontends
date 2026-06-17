@@ -64,12 +64,38 @@ npm run lint         # ESLint across all packages
 npm run format       # Biome format
 ```
 
+## Releases
+
+Packages are published with Semantic Versioning through `semantic-release`.
+Each package has its own tag and changelog, and only commits scoped to that package are used for its release notes.
+
+For `@open-comp/hello-world`, use the `hello-world` commit scope:
+
+```bash
+feat(hello-world): add greeting variant   # minor
+fix(hello-world): handle empty name       # patch
+perf(hello-world): reduce bundle size     # patch
+```
+
+Breaking changes produce a major release:
+
+```bash
+feat(hello-world)!: rename color prop
+```
+
+Repository-only changes use the `repo` scope:
+
+```bash
+chore(repo): update release workflow
+```
+
 ### Adding a new widget
 
 1. Create `packages/<widget-name>/` with the same structure as `hello-world`
 2. Set federation `name` to `opencomp_<widget_name>` (underscores, no hyphens)
 3. Add `react` and `react-dom` to `peerDependencies`, marked `singleton: true` in federation `shared`
-4. Run `npm install` from root to hoist dependencies
+4. Add the package to `release-packages.json` and `.github/workflows/release.yml`
+5. Run `npm install` from root to hoist dependencies
 
 ---
 

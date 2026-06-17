@@ -23,7 +23,7 @@ const typeSections = {
   revert: 'Reverts',
 };
 
-const scopedReleaseRules = [
+const semanticVersionReleaseRules = [
   { breaking: true, scope: releasePackage.scope, release: 'major' },
   { type: 'feat', scope: releasePackage.scope, release: 'minor' },
   { type: 'fix', scope: releasePackage.scope, release: 'patch' },
@@ -47,7 +47,7 @@ module.exports = {
       '@semantic-release/commit-analyzer',
       {
         preset: 'conventionalcommits',
-        releaseRules: [...scopedReleaseRules, ...suppressDefaultRules],
+        releaseRules: [...semanticVersionReleaseRules, ...suppressDefaultRules],
       },
     ],
     [
