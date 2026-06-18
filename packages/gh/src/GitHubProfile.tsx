@@ -22,6 +22,8 @@ import {
 
 export interface GitHubProfileProps {
   login: string;
+  showContributions?: boolean;
+  showRecentActivity?: boolean;
 }
 
 type ContributionCalendar = {
@@ -67,7 +69,11 @@ function eventLabel(event: GhEvent): string {
   }
 }
 
-export const GitHubProfile = ({ login }: GitHubProfileProps) => {
+export const GitHubProfile = ({
+  login,
+  showContributions = true,
+  showRecentActivity = true,
+}: GitHubProfileProps) => {
   const user = useGhUser(login);
   const contributionMap = useGhUserContributionMap(login);
   const events = useGhUserPublicEvents(login);
@@ -83,14 +89,31 @@ export const GitHubProfile = ({ login }: GitHubProfileProps) => {
   if (user.isPending) {
     return (
       <Card padding="lg" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div style={{ display: 'flex', gap: 16 }}>
+        {/* Header */}
+        <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
           <Skeleton variant="circle" size={64} />
           <div style={{ flex: 1 }}>
-            <Skeleton variant="text" lines={2} />
+            <Skeleton variant="text" lines={3} />
           </div>
         </div>
-        <Skeleton variant="rect" height={120} />
-        <Skeleton variant="rect" height={80} />
+        {/* Meta */}
+        <Skeleton variant="rect" height={60} style={{ width: '100%' }} />
+        {/* Stats */}
+        <Skeleton variant="rect" height={28} style={{ width: '100%' }} />
+        <Separator />
+        {showContributions && (
+          <>
+            <Skeleton variant="rect" height={16} style={{ width: 120 }} />
+            <Skeleton variant="rect" height={120} style={{ width: '100%' }} />
+          </>
+        )}
+        {showRecentActivity && (
+          <>
+            <Separator />
+            <Skeleton variant="rect" height={16} style={{ width: 120 }} />
+            <Skeleton variant="text" lines={5} />
+          </>
+        )}
       </Card>
     );
   }
@@ -175,39 +198,43 @@ export const GitHubProfile = ({ login }: GitHubProfileProps) => {
         </div>
       </div>
 
-      <Separator />
-
-      {/* Contribution graph */}
-      <Text variant="caption-heading">Contributions</Text>
-      {contributionMap.isPending ? (
-        <Skeleton variant="rect" height={120} />
-      ) : (
-        <ContributionGraph data={days} responsive weeks={52} />
+      {showContributions && (
+        <>
+          <Separator />
+          <Text variant="caption-heading">Contributions</Text>
+          {contributionMap.isPending ? (
+            <Skeleton variant="rect" height={120} />
+          ) : (
+            <ContributionGraph data={days} responsive weeks={52} />
+          )}
+        </>
       )}
 
-      <Separator />
-
-      {/* Recent activity */}
-      <Text variant="caption-heading">Recent activity</Text>
-      {events.isPending ? (
-        <Skeleton variant="text" lines={5} />
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {recentEvents.map((event) => {
-            const eventIcon = EVENT_ICON[event.type] ?? GitCommit;
-            return (
-              <div key={event.id} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <Icon icon={eventIcon} size="sm" />
-                <Text variant="caption">{eventLabel(event)}</Text>
-              </div>
-            );
-          })}
-          {recentEvents.length === 0 && (
-            <Text variant="caption" color="dim">
-              No recent public activity
-            </Text>
+      {showRecentActivity && (
+        <>
+          <Separator />
+          <Text variant="caption-heading">Recent activity</Text>
+          {events.isPending ? (
+            <Skeleton variant="text" lines={5} />
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {recentEvents.map((event) => {
+                const eventIcon = EVENT_ICON[event.type] ?? GitCommit;
+                return (
+                  <div key={event.id} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <Icon icon={eventIcon} size="sm" />
+                    <Text variant="caption">{eventLabel(event)}</Text>
+                  </div>
+                );
+              })}
+              {recentEvents.length === 0 && (
+                <Text variant="caption" color="dim">
+                  No recent public activity
+                </Text>
+              )}
+            </div>
           )}
-        </div>
+        </>
       )}
     </Card>
   );
