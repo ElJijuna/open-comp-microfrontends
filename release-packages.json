@@ -2,13 +2,13 @@
   "packages": [
     {
       "name": "@open-comp/hello-world",
-      "scope": "hello-world",
+      "scope": "@open-comp/hello-world",
       "path": "packages/hello-world",
       "tagFormat": "hello-world-v${version}"
     },
     {
       "name": "@open-comp/gh",
-      "scope": "gh",
+      "scope": "@open-comp/gh",
       "path": "packages/gh",
       "tagFormat": "gh-v${version}"
     }
