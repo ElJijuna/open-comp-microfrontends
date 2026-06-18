@@ -8,34 +8,55 @@ GitHub-scoped React components for the `open-comp` ecosystem.
 npm install @open-comp/gh
 ```
 
+---
+
 ## Components
 
 ### `GitHubProfile`
 
-Displays a GitHub user profile card.
+Displays a GitHub user profile card with avatar, bio, stats, contribution graph and recent activity.
 
 ```tsx
 import { GitHubProfile } from '@open-comp/gh'
 
-<GitHubProfile
-  username="ElJijuna"
-  avatarUrl="https://avatars.githubusercontent.com/u/12345"
-  bio="Open source developer"
-/>
+<GitHubProfile login="ElJijuna" />
 ```
 
-| Prop | Type | Required | Description |
-|------|------|----------|-------------|
-| `username` | `string` | yes | GitHub username (displayed as `@username`) |
-| `avatarUrl` | `string` | no | URL of the avatar image |
-| `bio` | `string` | no | Short bio text |
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `login` | `string` | — | GitHub username |
+| `showContributions` | `boolean` | `true` | Show/hide the contribution graph section |
+| `showRecentActivity` | `boolean` | `true` | Show/hide the recent activity section |
+
+---
+
+### `GitHubContributions`
+
+Standalone contribution graph for a GitHub user. Use it independently when you only need the graph.
+
+```tsx
+import { GitHubContributions } from '@open-comp/gh'
+
+<GitHubContributions login="ElJijuna" />
+```
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `login` | `string` | — | GitHub username |
+| `weeks` | `number` | `52` | Number of weeks to display |
+
+---
 
 ## Consumption patterns
 
 ### A — classic npm install
 
 ```tsx
-import { GitHubProfile } from '@open-comp/gh'
+import { GitHubProfile, GitHubContributions } from '@open-comp/gh'
+
+// or via subpath exports
+import { GitHubProfile } from '@open-comp/gh/GitHubProfile'
+import { GitHubContributions } from '@open-comp/gh/GitHubContributions'
 ```
 
 ### B — via `open-comp` orchestrator (Module Federation)
@@ -43,11 +64,21 @@ import { GitHubProfile } from '@open-comp/gh'
 ```tsx
 import { Microfrontend } from 'open-comp'
 
+// GitHubProfile
 <Microfrontend
-  url="https://unpkg.com/@open-comp/gh@0.1.0/dist/remoteEntry.js"
+  url="https://unpkg.com/@open-comp/gh@latest/dist/remoteEntry.js"
   remoteName="opencomp_gh"
   expose="./GitHubProfile"
-  username="ElJijuna"
+  login="ElJijuna"
+  fallback={<span>Loading…</span>}
+/>
+
+// GitHubContributions
+<Microfrontend
+  url="https://unpkg.com/@open-comp/gh@latest/dist/remoteEntry.js"
+  remoteName="opencomp_gh"
+  expose="./GitHubContributions"
+  login="ElJijuna"
   fallback={<span>Loading…</span>}
 />
 ```
@@ -56,16 +87,22 @@ import { Microfrontend } from 'open-comp'
 
 ```ts
 const { GitHubProfile } = await import(
-  'https://unpkg.com/@open-comp/gh@0.1.0/dist/index.es.js'
+  'https://unpkg.com/@open-comp/gh@latest/dist/index.es.js'
+)
+
+const { GitHubContributions } = await import(
+  'https://unpkg.com/@open-comp/gh@latest/dist/index.es.js'
 )
 ```
 
+---
+
 ## Releases
 
-Use the `gh` commit scope:
+Use the `@open-comp/gh` commit scope:
 
 ```bash
-feat(gh): add repo card component      # minor
-fix(gh): fix avatar fallback           # patch
-feat(gh)!: rename username prop        # major
+feat(@open-comp/gh): add repo card component      # minor
+fix(@open-comp/gh): fix avatar fallback           # patch
+feat(@open-comp/gh)!: rename login prop           # major
 ```
