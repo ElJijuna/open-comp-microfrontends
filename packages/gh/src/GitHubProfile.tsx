@@ -1,15 +1,14 @@
-import { useGhUser, useGhUserContributionMap, useGhUserPublicEvents } from '@api-hooks/gh';
+import { useGhUser, useGhUserPublicEvents } from '@api-hooks/gh';
 import {
   Avatar,
   Badge,
   Card,
-  ContributionGraph,
-  type ContributionDay,
   Icon,
   Separator,
   Skeleton,
   Text,
 } from '@gnome-ui/react';
+import { GitHubContributions } from './GitHubContributions';
 import {
   FindLocation,
   GitBranch,
@@ -25,10 +24,6 @@ export interface GitHubProfileProps {
   showContributions?: boolean;
   showRecentActivity?: boolean;
 }
-
-type ContributionCalendar = {
-  weeks: { contributionDays: { date: string; contributionCount: number }[] }[];
-};
 
 type GhEvent = {
   id: string;
@@ -75,7 +70,6 @@ export const GitHubProfile = ({
   showRecentActivity = true,
 }: GitHubProfileProps) => {
   const user = useGhUser(login);
-  const contributionMap = useGhUserContributionMap(login);
   const events = useGhUserPublicEvents(login);
 
   if (user.error) {
@@ -119,11 +113,6 @@ export const GitHubProfile = ({
   }
 
   const u = user.data;
-
-  const days: ContributionDay[] =
-    (contributionMap.data as ContributionCalendar | undefined)?.weeks
-      .flatMap((w) => w.contributionDays)
-      .map((d) => ({ date: d.date, count: d.contributionCount })) ?? [];
 
   const recentEvents = (
     (events.data as unknown as GhPagedResponse<GhEvent> | undefined)?.values ?? []
@@ -202,11 +191,7 @@ export const GitHubProfile = ({
         <>
           <Separator />
           <Text variant="caption-heading">Contributions</Text>
-          {contributionMap.isPending ? (
-            <Skeleton variant="rect" height={120} />
-          ) : (
-            <ContributionGraph data={days} responsive weeks={52} />
-          )}
+          <GitHubContributions login={login} />
         </>
       )}
 

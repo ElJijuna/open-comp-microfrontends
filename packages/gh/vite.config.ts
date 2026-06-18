@@ -16,6 +16,7 @@ export default defineConfig({
         filename: 'remoteEntry.js',
         exposes: {
           './GitHubProfile': './src/GitHubProfile.tsx',
+          './GitHubContributions': './src/GitHubContributions.tsx',
         },
         shared: {
           react: {
